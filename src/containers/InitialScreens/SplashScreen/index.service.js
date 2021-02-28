@@ -1,10 +1,14 @@
 import {useState, useEffect} from 'react'
-
+import NavigationService from '../../../config/NavigationService'
 const SplashServiceComponent = ({
     children,
     navigation,
-    route,
 }) => {
+    useEffect(()=>{
+        setTimeout(() => {
+            NavigationService.reset_0("OnboardingScreen");
+          }, 2400);
+    },[])
     return children({
         navigation
     })
