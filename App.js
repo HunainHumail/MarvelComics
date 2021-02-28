@@ -19,17 +19,17 @@ import {
 import {
   Header,
   LearnMoreLinks,
-  Colors,
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from "@react-navigation/native";
 import { MainStack } from "./src/stacks/MainStack";
-import {NavigationService} from './src/config'
+import {NavigationService} from './src/config';
+import {Colors} from './src/config/'
 
 const App: () => React$Node = () => {
   return (
-    <NavigationContainer ref={(ref) => NavigationService.setTopLevelNavigator(ref)}>
+    <NavigationContainer ref={(ref) => NavigationService.setTopLevelNavigator(ref)} theme={{colors: {background: Colors.Primary}}}>
       <MainStack/>
     </NavigationContainer>
   );
