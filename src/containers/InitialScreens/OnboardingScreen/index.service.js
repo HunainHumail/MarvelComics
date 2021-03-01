@@ -226,6 +226,7 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
     onSnapToItem,
     selectedCharacter,
     onSelectCb,
+    selectedCharacterId,
   });
 };
 
