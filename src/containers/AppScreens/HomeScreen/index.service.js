@@ -72,6 +72,8 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
     
 
   const onPressCb = () => setModalVisible(true)
+
+  const onPressChangeCharacter = () => NavigationService.reset_0('ChangeCharacterScreen')
   
   //-------------------------------------------------EFFECTS-------------------------------------------------
 
@@ -90,7 +92,8 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
     handleCancel,
     onPressCb,
     image,
-    name
+    name,
+    onPressChangeCharacter
   });
 };
 
