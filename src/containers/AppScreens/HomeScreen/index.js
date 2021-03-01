@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { CharacterModal, ComicListTile } from "../../../components";
 import { Fonts, Images, Colors, Responsive } from "../../../config/";
-const HomeScreen = ({ comicData, loadMoreData, image, handleModal, modalVisible,onPressCb, handleCancelCb, name }) => {
+const HomeScreen = ({ comicData, loadMoreData, image, handleModal, modalVisible,onPressCb, handleCancelCb, name, onPressChangeCharacter }) => {
 
   console.log('IMAGE', image)
 
@@ -55,6 +55,7 @@ const HomeScreen = ({ comicData, loadMoreData, image, handleModal, modalVisible,
         handleCancel={handleCancelCb}
         image = {image}
         name = {name}
+        onPress = {onPressChangeCharacter}
       />
     </View>
   );
