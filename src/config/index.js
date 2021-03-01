@@ -2,7 +2,7 @@ import NavigationService from './NavigationService'
 import Colors from './Colors'
 import Images from './Images'
 import Fonts from './Fonts'
-import Api from './Api'
+import ApiCaller from './Api'
 import Utils from './Utils'
 
 export {
@@ -10,6 +10,6 @@ export {
     Colors,
     Images,
     Fonts,
-    Api,
+    ApiCaller,
     Utils,
 }
