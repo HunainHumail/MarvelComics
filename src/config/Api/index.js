@@ -19,7 +19,7 @@ Axios.interceptors.response.use(
 export default class ApiCaller {
   static Get = (endpoint = "", headers = {}, isThirdPartyApi = false) => {
     // console.log("get from api caller", baseUrl, url);
-
+    console.log('api console: ', endpoint)
     return Axios.get(`${baseUrl}${endpoint}`, {
       headers: { "Content-Type": "application/json", ...headers },
     })
