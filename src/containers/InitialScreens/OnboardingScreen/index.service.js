@@ -20,9 +20,10 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { color } from "react-native-reanimated";
 
 const OnboardingServiceComponent = ({ children, navigation, route }) => {
+  let initialState = []
   const [activeIndex, setActiveIndex] = useState(0);
   const [search, setSearch] = useState("");
-  const [characterData, setCharacterData] = useState([]);
+  const [characterData, setCharacterData] = useState(initialState);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCharacter, setSelectedCharater] = useState();
   const [offset, setOffset] = useState(0)
@@ -55,12 +56,12 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
       };
     });
     console.log("names: ", names);
-    setCharacterData(characterData.concat(names));
+    setCharacterData(offset ? characterData.concat(names) : names);
+    // setCharacterData(names)
     setIsLoading(false);
   }
-  const onSearchPress = async () => {
-    await setCharacterData([])
-    await setOffset(0)
+  const onSearchPress =  () => {
+    //setCharacterData([])
     console.log("search pressed");
     console.log('again char data: ', characterData);
     console.log('again offset : ', offset);
@@ -69,14 +70,14 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
     // let response = await ApiCaller.Get(
     //   `characters?nameStartsWith=${search}&limit=10&offset=${offset}ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
     // );
-    loadData(offset)
+    loadData()
     
   };
 
-  const loadMoreData = async() => {    
-    await setOffset(characterData.length+10)
+  const loadMoreData = () => {    
+    //setOffset(characterData.length+10)
     console.log('LOAD MORE OFFSET: ', offset )
-    loadData(offset)
+    loadData(characterData.length)
 
   }
 
@@ -103,7 +104,7 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
   //   onSnapToItem()
   // }
   const clearSearch = () => {
-    setOffset(0),
+    //setOffset(0)
     setCharacterData([]),
     console.log('offfsett',offset),
     console.log('Chardata: ', characterData)
@@ -127,7 +128,7 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
               text="Search"
               width={100}
               disabled={false}
-              height={50}
+              height={30}
               onPress={() => onSearchPress()}
             />
             <TouchableOpacity onPress={()=>{clearSearch()}}><Text style={{marginTop: 5,textAlign:'center', fontFamily:Fonts['Badaboom'], color: Colors.White}}>Clear</Text></TouchableOpacity>
@@ -257,7 +258,7 @@ const styles = StyleSheet.create({
     height: "50%",
     backgroundColor: Colors.Primary,
     alignSelf: "center",
-    marginTop: 20,
+    marginTop: 10,
     borderRadius: 15
   },
   loadingStyle: {

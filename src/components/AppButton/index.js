@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     textStyle: {
         color: Colors.White,
         fontFamily: Fonts['Badaboom'],
-        fontSize: 25,
+        fontSize: 15,
         textAlign: 'center'
     }
 })
