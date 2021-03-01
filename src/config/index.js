@@ -4,6 +4,7 @@ import Images from './Images'
 import Fonts from './Fonts'
 import ApiCaller from './Api'
 import Utils from './Utils'
+import Responsive from './Responsive'
 
 export {
     NavigationService,
@@ -12,4 +13,5 @@ export {
     Fonts,
     ApiCaller,
     Utils,
+    Responsive,
 }
