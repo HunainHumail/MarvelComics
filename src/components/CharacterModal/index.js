@@ -30,6 +30,7 @@ export const CharacterModal = ({
   handleCancel,
   image,
   name,
+  onPress
   //toggleState,
   // handleToggle,
   //value,
@@ -70,7 +71,7 @@ export const CharacterModal = ({
               <Image source={{ uri:image }} style={styles.characterImageStyle} />
               <Text style={styles.textStyle}>{name}</Text>
               <View style={styles.buttonView}>
-              <AppButton text='Change Character' width={Responsive.HorizontalSize(120)} height={Responsive.VerticalSize(50)}/>
+              <AppButton text='Change Character' width={Responsive.HorizontalSize(120)} height={Responsive.VerticalSize(50)} onPress={onPress}/>
               </View>
 
           </View>
