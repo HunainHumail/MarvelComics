@@ -106,7 +106,7 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
       name: item.name,
       image: item.image
     })
-    selectedCharacter == item ? setSelectedCharater() : setSelectedCharater(item)
+    selectedCharacter.id == item.id ? setSelectedCharater() : setSelectedCharater(item.id)
   };
   // const onNextPress = () => {
   //   onSnapToItem()
