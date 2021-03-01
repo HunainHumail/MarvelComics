@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   TouchableOpacity,
   Text,
@@ -16,15 +16,28 @@ const CharacterListTile = ({
   disabled = true,
   height = 60,
   imageUri,
+  selectedCharacter,
+  id,
 }) => {
-    const [selected, setSelected] = useState(false)
-    const handleSelected = () => {
-        setSelected(!selected)
-      }
+  // const [selected, setSelected] = useState(false)
+  // const handleSelected = () => {
+  //     setSelected(!selected)
+  //   }
   return (
     <TouchableOpacity
-      style={[styles.listStyle, { width: width, height, borderWidth: selected ? 1 : 0, borderRadius: 15, borderColor: selected ? Colors.Secondary : null }]}
-      onPress={onPress, ()=>{handleSelected()}}
+      style={[
+        styles.listStyle,
+        {
+          width: width,
+          height,
+          borderWidth: selectedCharacter == id ? 1 : 0,
+          borderRadius: 15,
+          borderColor: selectedCharacter == id ? Colors.Secondary : null,
+        },
+      ]}
+      onPress={
+        (onPress)
+      }
       disabled={disabled}
     >
       <View style={styles.imageView}>
@@ -52,7 +65,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
     alignSelf: "center",
-    marginHorizontal: 10
+    marginHorizontal: 10,
   },
   imageView: {
     height: 50,
@@ -65,6 +78,6 @@ const styles = StyleSheet.create({
   imageStyle: {
     height: "100%",
     width: "100%",
-    borderRadius: 15
+    borderRadius: 15,
   },
 });
