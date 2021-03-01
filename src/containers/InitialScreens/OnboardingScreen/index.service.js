@@ -26,6 +26,8 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
   const [characterData, setCharacterData] = useState(initialState);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCharacter, setSelectedCharater] = useState();
+  const [selectedCharacterId, setSelectedCharacterId] = useState();
+
   const [offset, setOffset] = useState(0)
 
   const carousel = useRef();
@@ -106,16 +108,14 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
       name: item.name,
       image: item.image
     })
-    selectedCharacter.id == item.id ? setSelectedCharater() : setSelectedCharater(item.id)
+    
+    selectedCharacterId == item.id ? setSelectedCharacterId() : setSelectedCharacterId(item.id)
+    console.log('sid',selectedCharacterId)
+    console.log('itemid',item.id)
   };
-  // const onNextPress = () => {
-  //   onSnapToItem()
-  // }
+ 
   const clearSearch = () => {
-    //setOffset(0)
-    setCharacterData([]),
-    console.log('offfsett',offset),
-    console.log('Chardata: ', characterData)
+    setCharacterData([])
   }
 
   const _renderItem = ({ item, index }) => (
@@ -164,7 +164,7 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
                         id={item.id}
                         disabled={false}
                         onPress={()=>{onCharacterTap(item)}}
-                        selectedCharacter = {selectedCharacter}
+                        selectedCharacter = {selectedCharacterId}
                       />
                     </View>
                   );
@@ -188,7 +188,7 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
       )}
     </View>
   );
-  console.log('character id', selectedCharacter)
+  console.log('character id', selectedCharacterId)
 
   let pagination = () => {
     return (
