@@ -10,92 +10,32 @@ import {
 } from "react-native";
 import { Fonts, Images, Colors } from "../../../config/";
 import Carousel, { Pagination } from "react-native-snap-carousel";
-
-const OnboardingScreen = (props) => {
-  let sliders = [
-    {
-      title: "Your favourite Marvel Character Comics!",
-    },
-    {
-      title: "INPUT YOUR FAVOURITE MARVEL CHARACTER",
-      input: true,
-    },
-  ];
-
-  const [activeIndex, setActiveIndex] = useState(0);
-  const carousel = useRef();
-  const [flex, setFlex] = useState(1)
-
-  const _renderItem = ({ item, index }) => (
-    <View style={styles.cardStyle}>
-      <Text style={styles.headingStyle}>{item.title}</Text>
-      {item.input ? (
-        <View>
-          <TextInput
-          placeholder={'Enter Character Name. e.g. Spider-Man'}
-          placeholderTextColor={Colors.WhiteText}
-          style={styles.textInputStyle}
-          onFocus={()=>{setFlex(0)}}
-          />
-        </View>
-      ) : (
-        <View>
-          <Text style={[styles.textStyle]}>
-            get to know about your favorourite marvel character comics through
-            this app
-          </Text>
-          <Text style={styles.textStyle}>
-            {
-              " 1) Select your favourte hero \n 2) see all the comics of your selected character"
-            }
-          </Text>
-        </View>
-      )}
-    </View>
-  );
-  // let pagination = () => {
-  //   return (
-  //     <Pagination
-  //       dotsLength={sliders.length}
-  //       activeDotIndex={activeIndex}
-  //       dotContainerStyle={{
-  //         marginHorizontal: -5,
-  //       }}
-  //       dotStyle={{
-  //         width: 10,
-  //         height: 10,
-  //         borderRadius: 5,
-  //         marginHorizontal: 8,
-  //         backgroundColor: Colors.White,
-  //       }}
-  //       inactiveDotStyle={{
-  //         borderColor: Colors.White,
-  //         // Define styles for inactive dots here
-  //       }}
-  //       inactiveDotOpacity={1}
-  //       inactiveDotScale={0.6}
-  //     />
-  //   );
-  // };
+import {AppButton} from '../../../components'
+const OnboardingScreen = ({sliders, carousel, pagination, onSnapToItem, _renderItem, activeIndex}) => {
 
   return (
     <View style={styles.container}>
       <ImageBackground source={Images.AppBackground} style={styles.imageStyle}>
         <Image source={Images.MarvelLogo} style={styles.logoStyle} />
-        <KeyboardAvoidingView>
         <Carousel
           layout={"default"}
           ref={carousel}
           data={sliders}
           sliderWidth={500}
-          layoutCardOffset={true}
+          // layoutCardOffset={true}
           itemWidth={350}
           renderItem={_renderItem}
-          onSnapToItem={(index) => setActiveIndex(index)}
+          onSnapToItem={(index) => onSnapToItem(index)}
         />
-        {/* <View style={{marginBottom:70}}>{pagination()}</View> */}
+        <View style = {{flexDirection: 'row', flex: 1}}>
+        <View style = {styles.buttonView}>
+        </View>
+        {pagination()}
+        <View style = {styles.buttonView}>
+        {activeIndex == 1 && <AppButton text='Select' height="55%"/>}
+       </View>
+        </View>
 
-        </KeyboardAvoidingView>
 
       </ImageBackground>
     </View>
@@ -149,5 +89,8 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.White,
     borderBottomWidth: 1
   },
+  buttonView: {
+    width: '30%', justifyContent: 'center', alignItems: 'center'
+  }
 
 });
