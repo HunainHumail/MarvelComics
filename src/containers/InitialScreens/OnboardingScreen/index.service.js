@@ -29,7 +29,6 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
   const [offset, setOffset] = useState(0)
 
   const carousel = useRef();
-  const hash = "7b178a3fda00f33188e3b013abf70c0";
   const privateKey = "4e7b6885fbb0e9d91aec0d9d60bbd6af";
   const publicKey = "c5ec22114831d4a03079737c05140b314216d7a9";
   const ts = moment().unix();
@@ -97,8 +96,17 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
     setActiveIndex(index);
   };
 
-  const onCharacterTap = (id) => {
-    console.log(id);
+  const onSelectCb = () => {
+    NavigationService.navigate('HomeScreen', {selectedCharacter: selectedCharacter,})
+  }
+
+  const onCharacterTap = (item) => {
+    setSelectedCharater({
+      id: item.id,
+      name: item.name,
+      image: item.image
+    })
+    selectedCharacter == item ? setSelectedCharater() : setSelectedCharater(item)
   };
   // const onNextPress = () => {
   //   onSnapToItem()
@@ -127,7 +135,6 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
             <AppButton
               text="Search"
               width={100}
-              disabled={false}
               height={30}
               onPress={() => onSearchPress()}
             />
@@ -154,10 +161,10 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
                       <CharacterListTile
                         name={item.name}
                         imageUri={item.image}
+                        id={item.id}
                         disabled={false}
-                        onPress={() => {
-                          onCharacterTap(item.id, index);
-                        }}
+                        onPress={()=>{onCharacterTap(item)}}
+                        selectedCharacter = {selectedCharacter}
                       />
                     </View>
                   );
@@ -181,6 +188,7 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
       )}
     </View>
   );
+  console.log('character id', selectedCharacter)
 
   let pagination = () => {
     return (
@@ -216,6 +224,8 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
     _renderItem,
     pagination,
     onSnapToItem,
+    selectedCharacter,
+    onSelectCb,
   });
 };
 
