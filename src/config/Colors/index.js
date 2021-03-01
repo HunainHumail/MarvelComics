@@ -11,6 +11,8 @@ const Colors = {
     Primary: "#13100F",
     Secondary: "#A31217",
     Red: 'red',
+    DisabledColor: "#FFFFFFD8",
+
   };
   
   export default Colors;
