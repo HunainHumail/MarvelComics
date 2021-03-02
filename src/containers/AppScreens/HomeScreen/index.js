@@ -42,7 +42,7 @@ const HomeScreen = ({ comicData, loadMoreData, image, handleModal, modalVisible,
                   title={item.title}
                   price={item.price}
                   imageUrl={item.imageUrl}
-                  issueNo={item.issueNo}
+                  issueNo={item.issueNumber}
                 />
               );
             }}
