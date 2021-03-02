@@ -28,6 +28,8 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
   const [selectedCharacter, setSelectedCharater] = useState();
   const [selectedCharacterId, setSelectedCharacterId] = useState();
 
+  console.log('Selected CHARR: ', selectedCharacter)
+
   const [offset, setOffset] = useState(0)
 
   const carousel = useRef();
@@ -143,7 +145,7 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
           <View style={styles.searchView}>
             {isLoading ? (
               <View style={styles.loadingStyle}>
-                <ActivityIndicator />
+                <ActivityIndicator size = {'small'} color = {Colors.White}/>
               </View>
             ) : characterData == undefined ? (
               <Text style={styles.textStyle}>Please Search some character</Text>
