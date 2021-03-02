@@ -6,15 +6,26 @@ import {
   StyleSheet,
   ImageBackground,
   TextInput,
+  ActivityIndicator,
   KeyboardAvoidingView,
   FlatList,
   TouchableOpacity,
 } from "react-native";
 import { CharacterModal, ComicListTile } from "../../../components";
 import { Fonts, Images, Colors, Responsive } from "../../../config/";
-const HomeScreen = ({ comicData, loadMoreData, image, handleModal, modalVisible,onPressCb, handleCancelCb, name, onPressChangeCharacter }) => {
-
-  console.log('IMAGE', image)
+const HomeScreen = ({
+  comicData,
+  loadMoreData,
+  image,
+  handleModal,
+  modalVisible,
+  onPressCb,
+  handleCancelCb,
+  name,
+  onPressChangeCharacter,
+  isLoading,
+}) => {
+  console.log("IMAGE", image);
 
   return (
     <View style={styles.container}>
@@ -29,33 +40,39 @@ const HomeScreen = ({ comicData, loadMoreData, image, handleModal, modalVisible,
         </View>
         <Text style={styles.headingStyle}>Comics</Text>
         <View style={styles.listView}>
-          <FlatList
-            data={comicData}
-            keyExtractor={(item) => item.id.toString()}
-            onEndReachedThreshold={0.4}
-            onEndReached={() => {
-              loadMoreData();
-            }}
-            renderItem={({ item, index }) => {
-              return (
-                <ComicListTile
-                  title={item.title}
-                  price={item.price}
-                  imageUrl={item.imageUrl}
-                  issueNo={item.issueNumber}
-                />
-              );
-            }}
-          />
+          {isLoading ? (
+            <View style={styles.loadingStyle}>
+              <ActivityIndicator size={"small"} color={Colors.White} />
+            </View>
+          ) : (
+            <FlatList
+              data={comicData}
+              keyExtractor={(item) => item.id.toString()}
+              onEndReachedThreshold={0.4}
+              onEndReached={() => {
+                loadMoreData();
+              }}
+              renderItem={({ item, index }) => {
+                return (
+                  <ComicListTile
+                    title={item.title}
+                    price={item.price}
+                    imageUrl={item.imageUrl}
+                    issueNo={item.issueNumber}
+                  />
+                );
+              }}
+            />
+          )}
         </View>
       </ImageBackground>
       <CharacterModal
         modalVisible={modalVisible}
         handleModal={handleModal}
         handleCancel={handleCancelCb}
-        image = {image}
-        name = {name}
-        onPress = {onPressChangeCharacter}
+        image={image}
+        name={name}
+        onPress={onPressChangeCharacter}
       />
     </View>
   );
@@ -104,5 +121,11 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     borderRadius: Responsive.VerticalSize(40),
+  },
+  loadingStyle: {
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    color: Colors.White,
   },
 });
