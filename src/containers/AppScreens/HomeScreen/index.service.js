@@ -16,6 +16,7 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   const publicKey = "c5ec22114831d4a03079737c05140b314216d7a9";
   const ts = moment().unix();
   const md5Hash = md5(ts + publicKey + privateKey);
+  console.log('selected char: ', selectedCharacter)
   const selectedCharacter = route.params.selectedCharacter
 
   console.log('SELECTEDCHARACTER: ', selectedCharacter)
@@ -92,7 +93,8 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
     onPressCb,
     image,
     name,
-    onPressChangeCharacter
+    onPressChangeCharacter,
+    isLoading
   });
 };
 
