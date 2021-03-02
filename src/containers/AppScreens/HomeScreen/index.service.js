@@ -86,7 +86,6 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
     navigation,
     comicData,
     loadMoreData,
-    image,
     modalVisible,
     handleModal,
     handleCancel,
