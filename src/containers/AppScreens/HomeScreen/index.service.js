@@ -1,13 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import NavigationService from "../../../config/NavigationService";
-import { Fonts, Images, Colors, ApiCaller } from "../../../config/";
-import Carousel, { Pagination } from "react-native-snap-carousel";
-import { AppButton, CharacterListTile } from "../../../components";
+import { ApiCaller } from "../../../config/";
 import moment from "moment";
 import md5 from "md5";
 
 const HomeScreenServiceComponent = ({ children, navigation, route }) => {
-  console.log('NAVIGATION PROPS: ', route.params)
 
   //-------------------------------------------------CONSTANTS-------------------------------------------------
 
@@ -16,10 +13,7 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   const publicKey = "c5ec22114831d4a03079737c05140b314216d7a9";
   const ts = moment().unix();
   const md5Hash = md5(ts + publicKey + privateKey);
-  console.log('selected char: ', selectedCharacter)
   const selectedCharacter = route.params.selectedCharacter
-
-  console.log('SELECTEDCHARACTER: ', selectedCharacter)
   let id = selectedCharacter.id
   let image = selectedCharacter.image
   let name = selectedCharacter.name
@@ -43,7 +37,6 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
     );
     let data = response.data.data.results
 
-    console.log('dataaaa: ', data)
     let list = data.map((item) => {
       return {
         id: item.id,
@@ -53,9 +46,7 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
         imageUrl: item.thumbnail.path + "/portrait_uncanny." + item.thumbnail.extension,
       };
     });
-    console.log("names: ", list);
     setComicData(offset ? comicData.concat(list) : list);
-    // setCharacterData(names)
     setIsLoading(false);
   }
 
@@ -82,7 +73,9 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
     loadData()
   }, [])
 
-  console.log('COMIC DATAAA: ', comicData)
+//_________________________________________________________________________________________________________________________
+
+
   return children({
     navigation,
     comicData,
