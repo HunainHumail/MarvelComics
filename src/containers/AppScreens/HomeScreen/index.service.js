@@ -14,7 +14,9 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   const publicKey = "c5ec22114831d4a03079737c05140b314216d7a9";
   const ts = moment().unix();
   const md5Hash = md5(ts + publicKey + privateKey);
-  const selectedCharacter = route.params.selectedCharacter
+  const [loadMore, setLoadMore] = useState(false);
+
+  // const selectedCharacter = route.params.selectedCharacter
   // let id = selectedCharacter.id
   // let image = selectedCharacter.image
   // let name = selectedCharacter.name
@@ -34,13 +36,20 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
 
   const getCharacter = async () => {
     await AsyncStorage.getItem("character").then(async (character) => {
+      let parsedCharacter= JSON.parse(character)
+      console.log('parseddd: ', parsedCharacter.id)
+
       if (character) {
-        setId(character.id)
-        setImage(character.image)
-        setName(character.name)
+        setId(parsedCharacter.id)
+        setImage(parsedCharacter.image)
+        setName(parsedCharacter.name)
       } 
     });
   };
+
+  console.log('id: ', id)
+  console.log('image: ', image)
+  console.log('name: ', name)
 
 
 
@@ -66,8 +75,10 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   }
 
 
-  const loadMoreData = () => {    
+  const loadMoreData = () => {   
+    setLoadMore(true) 
     loadData(comicData.length)
+    setLoadMore(false)
   }
 
 
@@ -84,10 +95,10 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   
   //-------------------------------------------------EFFECTS-------------------------------------------------
 
-  useEffect(async()=>{
-    await getCharacter()
+  useEffect(()=>{
+    getCharacter()
     loadData()
-  }, [])
+  }, [id,image,name])
 
 //_________________________________________________________________________________________________________________________
 
@@ -103,7 +114,8 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
     image,
     name,
     onPressChangeCharacter,
-    isLoading
+    isLoading,
+    loadMore
   });
 };
 
