@@ -3,6 +3,7 @@ import NavigationService from "../../../config/NavigationService";
 import { ApiCaller } from "../../../config/";
 import moment from "moment";
 import md5 from "md5";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const HomeScreenServiceComponent = ({ children, navigation, route }) => {
 
@@ -14,9 +15,9 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   const ts = moment().unix();
   const md5Hash = md5(ts + publicKey + privateKey);
   const selectedCharacter = route.params.selectedCharacter
-  let id = selectedCharacter.id
-  let image = selectedCharacter.image
-  let name = selectedCharacter.name
+  // let id = selectedCharacter.id
+  // let image = selectedCharacter.image
+  // let name = selectedCharacter.name
 
   //-------------------------------------------------HOOKS-------------------------------------------------
 
@@ -24,9 +25,23 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   const [comicData, setComicData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [modalVisible, setModalVisible] = useState(false);
+  const [id, setId] = useState('')
+  const [image, setImage] = useState('')
+  const [name, setName] = useState('')
 
 
   //-------------------------------------------------FUNCTIONS-------------------------------------------------
+
+  const getCharacter = async () => {
+    await AsyncStorage.getItem("character").then(async (character) => {
+      if (character) {
+        setId(character.id)
+        setImage(character.image)
+        setName(character.name)
+      } 
+    });
+  };
+
 
 
   const loadData = async (offset=0) => {
@@ -69,7 +84,8 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   
   //-------------------------------------------------EFFECTS-------------------------------------------------
 
-  useEffect(()=>{
+  useEffect(async()=>{
+    await getCharacter()
     loadData()
   }, [])
 
