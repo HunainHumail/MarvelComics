@@ -72,7 +72,7 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
   };
 
   const clearSearch = () => {
-    setCharacterData([]),
+    setCharacterData([])
   };
 
   const onPressCb = () => setModalVisible(true);
