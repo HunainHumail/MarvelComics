@@ -16,7 +16,7 @@ import moment from "moment";
 import md5 from "md5";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const OnboardingServiceComponent = ({ children, navigation, route }) => {
+const OnboardingServiceComponent = ({ children, navigation }) => {
 
   //-------------------------------------------------CONSTANTS-------------------------------------------------
   const carousel = useRef();
