@@ -1,23 +1,20 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   Text,
-  Image,
   StyleSheet,
-  ImageBackground,
   TextInput,
   KeyboardAvoidingView,
   FlatList,
   ActivityIndicator,
 } from "react-native";
 import NavigationService from "../../../config/NavigationService";
-import { Fonts, Images, Colors, ApiCaller } from "../../../config/";
-import Carousel, { Pagination } from "react-native-snap-carousel";
+import { Fonts, Colors, ApiCaller } from "../../../config/";
+import { Pagination } from "react-native-snap-carousel";
 import { AppButton, CharacterListTile } from "../../../components";
 import moment from "moment";
 import md5 from "md5";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { color } from "react-native-reanimated";
 
 const OnboardingServiceComponent = ({ children, navigation, route }) => {
 
@@ -46,7 +43,6 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCharacter, setSelectedCharater] = useState();
   const [selectedCharacterId, setSelectedCharacterId] = useState();
-  const [offset, setOffset] = useState(0)
 
  //-------------------------------------------------FUNCTIONS-------------------------------------------------
 
