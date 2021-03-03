@@ -4,12 +4,19 @@ const SplashServiceComponent = ({
     children,
     navigation,
 }) => {
+
+
+//-------------------------------------------------EFFECTS-------------------------------------------------
+
     useEffect(()=>{
         setTimeout(() => {
             NavigationService.reset_0("OnboardingScreen");
           }, 2400);
     },[])
-    return children({
+//_________________________________________________________________________________________________________________________
+
+
+return children({
         navigation
     })
 }
