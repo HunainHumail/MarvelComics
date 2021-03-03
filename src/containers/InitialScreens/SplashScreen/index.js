@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { View, Text, Image, StyleSheet, ImageBackground } from "react-native";
+import React from "react";
+import { View, Image, StyleSheet } from "react-native";
 import { Images } from "../../../config/";
 
-const SplashScreen = (props) => {
+const SplashScreen = () => {
   return (
     <View style={styles.viewStyle}>
       <Image source={Images.SplashBackground} resizeMode="cover" />
