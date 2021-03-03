@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import {
   View,
   Text,
   Image,
   StyleSheet,
   ImageBackground,
-  TextInput,
   ActivityIndicator,
-  KeyboardAvoidingView,
   FlatList,
   TouchableOpacity,
 } from "react-native";
@@ -25,7 +23,6 @@ const HomeScreen = ({
   onPressChangeCharacter,
   isLoading,
 }) => {
-  console.log("IMAGE", image);
 
   return (
     <View style={styles.container}>
@@ -111,14 +108,7 @@ const styles = StyleSheet.create({
     height: Responsive.VerticalSize(50),
     borderRadius: Responsive.VerticalSize(40),
     width: Responsive.VerticalSize(50),
-    // marginLeft: Responsive.HorizontalSize(60),
-
     alignSelf: "flex-end",
-  },
-  characterImageStyle: {
-    height: "100%",
-    width: "100%",
-    borderRadius: Responsive.VerticalSize(40),
   },
   loadingStyle: {
     height: "100%",
