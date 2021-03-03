@@ -93,8 +93,6 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     alignItems: "center",
-    // justifyContent: "center",
-    // width: '100%'
   },
   headingStyle: {
     fontFamily: Fonts["Badaboom"],
