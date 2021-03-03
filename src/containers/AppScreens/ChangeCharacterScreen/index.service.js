@@ -13,6 +13,8 @@ import { Fonts, Colors, ApiCaller, Responsive } from "../../../config/";
 import { AppButton, CharacterListTile } from "../../../components";
 import moment from "moment";
 import md5 from "md5";
+import AsyncStorage from "@react-native-community/async-storage";
+
 
 const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
   //-------------------------------------------------CONSTANTS-------------------------------------------------
@@ -27,6 +29,7 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
   const [search, setSearch] = useState("");
   const [characterData, setCharacterData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadMore, setLoadMore] = useState(false);
   const [selectedCharacter, setSelectedCharater] = useState();
   const [selectedCharacterId, setSelectedCharacterId] = useState();
 
@@ -54,12 +57,21 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
     loadData();
   };
 
-  const loadMoreData = () => {
-    loadData(characterData.length);
+  const loadMoreData = async() => {
+    setLoadMore(true)
+    await loadData(characterData.length)
+    setLoadMore(false)
   };
 
-  const onSelectCb = () => {
-    NavigationService.navigate('HomeScreen', {selectedCharacter: selectedCharacter,})
+  const onSelectCb = async() => {
+    console.log('selectedChar', selectedCharacter)
+    try {
+      await AsyncStorage.setItem("user", JSON.stringify("user"));
+      await AsyncStorage.setItem("character", JSON.stringify(selectedCharacter));
+    } catch {}
+
+    console.log('Done')
+    NavigationService.reset_0('HomeScreen')
   }
 
   const onCharacterTap = (item) => {
@@ -114,7 +126,7 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.searchView}>
-        {isLoading ? (
+        {isLoading && !loadMore ? (
           <View style={styles.loadingStyle}>
             <ActivityIndicator />
           </View>

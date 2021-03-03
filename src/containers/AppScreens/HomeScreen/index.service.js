@@ -14,7 +14,6 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   const publicKey = "c5ec22114831d4a03079737c05140b314216d7a9";
   const ts = moment().unix();
   const md5Hash = md5(ts + publicKey + privateKey);
-  const [loadMore, setLoadMore] = useState(false);
 
   // const selectedCharacter = route.params.selectedCharacter
   // let id = selectedCharacter.id
@@ -24,8 +23,9 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   //-------------------------------------------------HOOKS-------------------------------------------------
 
 
-  const [comicData, setComicData] = useState([])
+  const [comicData, setComicData] = useState()
   const [isLoading, setIsLoading] = useState(false)
+  const [loadMore, setLoadMore] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [id, setId] = useState('')
   const [image, setImage] = useState('')
@@ -55,12 +55,12 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
 
   const loadData = async (offset=0) => {
     setIsLoading(true);
-
+    !loadMore ? setIsLoading(true) : setIsLoading(false) && setLoadMore(true)
     let response = await ApiCaller.Get(
       `comics?characters=${id}&limit=10&offset=${offset}&ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
     );
     let data = response.data.data.results
-
+      console.log('data: ', data.length)
     let list = data.map((item) => {
       return {
         id: item.id,
@@ -70,12 +70,14 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
         imageUrl: item.thumbnail.path + "/portrait_uncanny." + item.thumbnail.extension,
       };
     });
-    setComicData(offset ? comicData.concat(list) : list);
+    data.length == 0 ? setComicData('null') :  setComicData(offset ? comicData.concat(list) : list);
+
     setIsLoading(false);
   }
 
 
   const loadMoreData = () => {   
+    setIsLoading(false)
     setLoadMore(true) 
     loadData(comicData.length)
     setLoadMore(false)

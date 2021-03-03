@@ -38,12 +38,15 @@ const HomeScreen = ({
         </View>
         <Text style={styles.headingStyle}>Comics</Text>
         <View style={styles.listView}>
-          {isLoading ? (
+          {isLoading && !loadMore? (
             <View style={styles.loadingStyle}>
               <ActivityIndicator size={"small"} color={Colors.White} />
             </View>
           ) : (
-            <FlatList
+            comicData == 'null' ? (
+              <Text style={styles.textStyle}>No data</Text>
+            ) :
+            (<FlatList
               data={comicData}
               keyExtractor={(item) => item.id.toString()}
               onEndReachedThreshold={0.8}
@@ -60,7 +63,7 @@ const HomeScreen = ({
                   />
                 );
               }}
-            />
+            />)
           )}
         </View>
       </ImageBackground>
@@ -104,6 +107,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "90%",
     paddingBottom: Responsive.VerticalSize(20),
+    justifyContent: 'center'
   },
   imageView: {
     height: Responsive.VerticalSize(50),
@@ -117,4 +121,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     color: Colors.White,
   },
+  textStyle: {
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontFamily: Fonts["Badaboom"],
+    fontSize: Responsive.FontLarge,
+    color: Colors.White
+  }
 });

@@ -88,15 +88,6 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
   };
 
 
-  const getCharacter = async () => {
-    await AsyncStorage.getItem("character").then(async (character) => {
-      if(character)
-      {
-        console.log(character)
-      }
-    });
-  };
-
   const onSelectCb = async() => {
     console.log('selectedChar', selectedCharacter)
     try {
