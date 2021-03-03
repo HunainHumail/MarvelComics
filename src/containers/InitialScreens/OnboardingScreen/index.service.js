@@ -15,6 +15,7 @@ import { AppButton, CharacterListTile } from "../../../components";
 import moment from "moment";
 import md5 from "md5";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const OnboardingServiceComponent = ({ children, navigation }) => {
 
@@ -85,8 +86,14 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
 
 
 
-  const onSelectCb = () => {
-    NavigationService.navigate('HomeScreen', {selectedCharacter: selectedCharacter,})
+  const onSelectCb = async() => {
+    try {
+      await AsyncStorage.setItem("user", JSON.stringify("user"));
+      await AsyncStorage.setItem("character", JSON.stringify(selectedCharacter));
+    } catch {}
+    // NavigationService.navigate('HomeScreen', {selectedCharacter: selectedCharacter,})
+    NavigationService.reset_0('HomeScreen')
+
   }
 
 
