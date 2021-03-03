@@ -14,6 +14,7 @@ import { Fonts, Images, Colors, Responsive } from "../../../config/";
 const HomeScreen = ({
   comicData,
   loadMoreData,
+  loadMore,
   image,
   handleModal,
   modalVisible,
@@ -45,7 +46,7 @@ const HomeScreen = ({
             <FlatList
               data={comicData}
               keyExtractor={(item) => item.id.toString()}
-              onEndReachedThreshold={0.4}
+              onEndReachedThreshold={0.8}
               onEndReached={() => {
                 loadMoreData();
               }}
