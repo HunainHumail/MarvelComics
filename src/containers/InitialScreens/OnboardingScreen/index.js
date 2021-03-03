@@ -12,7 +12,6 @@ import { Fonts, Images, Colors } from "../../../config/";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import {AppButton} from '../../../components'
 const OnboardingScreen = ({sliders, carousel, pagination, onSnapToItem, _renderItem, activeIndex, selectedCharacter, onSelectCb, selectedCharacterId}) => {
-console.log('MAINSCREEN: ', selectedCharacter)
 
   return (
     <View style={styles.container}>
@@ -23,7 +22,6 @@ console.log('MAINSCREEN: ', selectedCharacter)
           ref={carousel}
           data={sliders}
           sliderWidth={500}
-          // layoutCardOffset={true}
           itemWidth={350}
           renderItem={_renderItem}
           onSnapToItem={(index) => onSnapToItem(index)}
@@ -33,9 +31,7 @@ console.log('MAINSCREEN: ', selectedCharacter)
         </View>
         {pagination()}
         <View style = {styles.buttonView}>
-        {/* <KeyboardAvoidingView style={{ width: '80%', backgroundColor: 'red'}}> */}
         {activeIndex == 1 && <AppButton text='Select' height="55%" disabled={selectedCharacterId == undefined?true:false} onPress={()=>{onSelectCb()}}/>}
-        {/* </KeyboardAvoidingView> */}
        </View>
         </View>
 
