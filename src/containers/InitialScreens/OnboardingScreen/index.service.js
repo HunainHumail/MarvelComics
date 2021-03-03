@@ -20,71 +20,14 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { color } from "react-native-reanimated";
 
 const OnboardingServiceComponent = ({ children, navigation, route }) => {
-  let initialState = []
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [search, setSearch] = useState("");
-  const [characterData, setCharacterData] = useState(initialState);
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedCharacter, setSelectedCharater] = useState();
-  const [selectedCharacterId, setSelectedCharacterId] = useState();
 
-  console.log('Selected CHARR: ', selectedCharacter)
-
-  const [offset, setOffset] = useState(0)
-
+  //-------------------------------------------------CONSTANTS-------------------------------------------------
   const carousel = useRef();
   const privateKey = "4e7b6885fbb0e9d91aec0d9d60bbd6af";
   const publicKey = "c5ec22114831d4a03079737c05140b314216d7a9";
   const ts = moment().unix();
   const md5Hash = md5(ts + publicKey + privateKey);
-
-  console.log(ts);
-  console.log("md5", md5Hash);
-
-
-
-  const loadData = async (offset=0) => {
-    let response = await ApiCaller.Get(
-      `characters?nameStartsWith=${search}&limit=10&offset=${offset}&ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
-    );
-    console.log('responseeeee: ', response)
-    let data = response.data.data.results;
-    console.log("the data: ", data);
-    let names = data.map((item) => {
-      return {
-        id: item.id,
-        name: item.name,
-        image:
-          item.thumbnail.path + "/standard_xlarge." + item.thumbnail.extension,
-      };
-    });
-    console.log("names: ", names);
-    setCharacterData(offset ? characterData.concat(names) : names);
-    // setCharacterData(names)
-    setIsLoading(false);
-  }
-  const onSearchPress =  () => {
-    //setCharacterData([])
-    console.log("search pressed");
-    console.log('again char data: ', characterData);
-    console.log('again offset : ', offset);
-
-    setIsLoading(true);
-    // let response = await ApiCaller.Get(
-    //   `characters?nameStartsWith=${search}&limit=10&offset=${offset}ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
-    // );
-    loadData()
-    
-  };
-
-  const loadMoreData = () => {    
-    //setOffset(characterData.length+10)
-    console.log('LOAD MORE OFFSET: ', offset )
-    loadData(characterData.length)
-
-  }
-
-  console.log("CHARACTER DATA: ", characterData);
+  let initialState = []
   let sliders = [
     {
       title: "Your favourite Marvel Character Comics!",
@@ -95,14 +38,62 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
     },
   ];
 
+  //-------------------------------------------------HOOKS-------------------------------------------------
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [search, setSearch] = useState("");
+  const [characterData, setCharacterData] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedCharacter, setSelectedCharater] = useState();
+  const [selectedCharacterId, setSelectedCharacterId] = useState();
+  const [offset, setOffset] = useState(0)
+
+ //-------------------------------------------------FUNCTIONS-------------------------------------------------
+
+
+  const loadData = async (offset=0) => {
+    let response = await ApiCaller.Get(
+      `characters?nameStartsWith=${search}&limit=10&offset=${offset}&ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
+    );
+    let data = response.data.data.results;
+    let names = data.map((item) => {
+      return {
+        id: item.id,
+        name: item.name,
+        image:
+          item.thumbnail.path + "/standard_xlarge." + item.thumbnail.extension,
+      };
+    });
+    setCharacterData(offset ? characterData.concat(names) : names);
+    setIsLoading(false);
+  }
+
+
+
+  const onSearchPress =  () => {
+    setIsLoading(true);
+    loadData()
+  };
+
+
+
+  const loadMoreData = () => {    
+    loadData(characterData.length)
+  }
+
+
+
   const onSnapToItem = (index) => {
-    console.log("index", index);
     setActiveIndex(index);
   };
+
+
 
   const onSelectCb = () => {
     NavigationService.navigate('HomeScreen', {selectedCharacter: selectedCharacter,})
   }
+
+
 
   const onCharacterTap = (item) => {
     setSelectedCharater({
@@ -110,15 +101,18 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
       name: item.name,
       image: item.image
     })
-    
     selectedCharacterId == item.id ? setSelectedCharacterId() : setSelectedCharacterId(item.id)
-    console.log('sid',selectedCharacterId)
-    console.log('itemid',item.id)
   };
+
+
  
   const clearSearch = () => {
     setCharacterData([])
   }
+
+
+
+  //-------------------------------------------------RENDER COMPONENT FUNCTIONS-------------------------------------------------
 
   const _renderItem = ({ item, index }) => (
     <View style={styles.cardStyle}>
@@ -190,7 +184,6 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
       )}
     </View>
   );
-  console.log('character id', selectedCharacterId)
 
   let pagination = () => {
     return (
@@ -218,6 +211,8 @@ const OnboardingServiceComponent = ({ children, navigation, route }) => {
       </KeyboardAvoidingView>
     );
   };
+
+//_________________________________________________________________________________________________________________________
   return children({
     navigation,
     sliders,
