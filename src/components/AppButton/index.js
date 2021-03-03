@@ -1,5 +1,5 @@
-import React,{useState} from 'react'
-import {TouchableOpacity, Text, StyleSheet, ImageBackground, KeyboardAvoidingView} from 'react-native'
+import React from 'react'
+import {TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView} from 'react-native'
 import {Colors, Fonts} from '../../config'
 
 const AppButton = ({width='80%', text, onPress, height, disabled}) => {
