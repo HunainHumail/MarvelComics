@@ -42,6 +42,7 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
   const [search, setSearch] = useState("");
   const [characterData, setCharacterData] = useState(initialState);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadMore, setLoadMore] = useState(false);
   const [selectedCharacter, setSelectedCharater] = useState();
   const [selectedCharacterId, setSelectedCharacterId] = useState();
 
@@ -74,8 +75,10 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
 
 
 
-  const loadMoreData = () => {    
-    loadData(characterData.length)
+  const loadMoreData = async() => {    
+    setLoadMore(true)
+    await loadData(characterData.length)
+    setLoadMore(false)
   }
 
 
@@ -85,15 +88,24 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
   };
 
 
+  const getCharacter = async () => {
+    await AsyncStorage.getItem("character").then(async (character) => {
+      if(character)
+      {
+        console.log(character)
+      }
+    });
+  };
 
   const onSelectCb = async() => {
+    console.log('selectedChar', selectedCharacter)
     try {
       await AsyncStorage.setItem("user", JSON.stringify("user"));
       await AsyncStorage.setItem("character", JSON.stringify(selectedCharacter));
     } catch {}
-    // NavigationService.navigate('HomeScreen', {selectedCharacter: selectedCharacter,})
-    NavigationService.reset_0('HomeScreen')
 
+    console.log('Done')
+    NavigationService.reset_0('HomeScreen')
   }
 
 
@@ -140,7 +152,7 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
             <TouchableOpacity onPress={()=>{clearSearch()}}><Text style={{marginTop: 5,textAlign:'center', fontFamily:Fonts['Badaboom'], color: Colors.White}}>Clear</Text></TouchableOpacity>
           </View>
           <View style={styles.searchView}>
-            {isLoading ? (
+            {isLoading && !loadMore? (
               <View style={styles.loadingStyle}>
                 <ActivityIndicator size = {'small'} color = {Colors.White}/>
               </View>
@@ -150,6 +162,7 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
               !characterData.length ? <Text style={styles.textStyle}>
                 No Data
               </Text>:<FlatList
+                // extraData = {loadMore}
                 data={characterData}
                 keyExtractor={(item,index) => index.toString()}
                 onEndReachedThreshold={0.4}
