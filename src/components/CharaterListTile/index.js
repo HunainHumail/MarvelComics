@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  ImageBackground,
   Image,
   View,
 } from "react-native";
-import { Colors, Fonts, Images } from "../../config";
+import { Colors, Fonts } from "../../config";
 
 const CharacterListTile = ({
   width = "100%",
@@ -19,10 +18,7 @@ const CharacterListTile = ({
   selectedCharacter,
   id,
 }) => {
-  // const [selected, setSelected] = useState(false)
-  // const handleSelected = () => {
-  //     setSelected(!selected)
-  //   }
+
   return (
     <TouchableOpacity
       style={[

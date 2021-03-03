@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  TouchableOpacity,
   Text,
   StyleSheet,
-  ImageBackground,
   Image,
   View,
 } from "react-native";
-import { Colors, Fonts, Images, Responsive} from "../../config";
+import { Colors, Fonts, Responsive} from "../../config";
 
 const ComicListTile = ({
   title,
@@ -15,10 +13,7 @@ const ComicListTile = ({
   price,
   imageUrl
 }) => {
-  // const [selected, setSelected] = useState(false)
-  // const handleSelected = () => {
-  //     setSelected(!selected)
-  //   }
+
   return (
     <View style={styles.cardStyle}>
         <View style={styles.imageView}>

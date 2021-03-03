@@ -1,25 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Image,
   Text,
   TouchableOpacity,
-  TextInput,
   Modal,
-  Share,
   StyleSheet,
   TouchableHighlight,
-  FlatList,
-  Animated,
-  Easing,
 } from "react-native";
 import {
   Responsive,
-  Images,
-  NavigationService,
   Fonts,
   Colors,
-  ApiCaller,
 } from "../../config";
 import { BlurView } from "@react-native-community/blur";
 import AppButton from "../AppButton";
@@ -27,17 +19,10 @@ import AppButton from "../AppButton";
 export const CharacterModal = ({
   modalVisible,
   handleModal,
-  handleCancel,
   image,
   name,
   onPress
-  //toggleState,
-  // handleToggle,
-  //value,
 }) => {
-//   const [viewRef, setViewRef] = useState(null);
-
-  console.log('imaaaaage: ', image)
 
   return (
     <Modal
@@ -48,7 +33,6 @@ export const CharacterModal = ({
     >
       <BlurView
         style={styles.absolute}
-        // viewRef={viewRef}
         blurType="light"
         blurAmount={10}
         reducedTransparencyFallbackColor="white"
@@ -60,7 +44,6 @@ export const CharacterModal = ({
           flex: 1,
           alignItems: "center",
           justifyContent: "center",
-          //backgroundColor: "rgba(255,255,255,0.9)",
         }}
       >
         <TouchableHighlight>
@@ -82,10 +65,6 @@ export const CharacterModal = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
   absolute: {
     position: "absolute",
     top: 0,
