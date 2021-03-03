@@ -1,23 +1,18 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, {useState} from "react";
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   TouchableOpacity,
-  ImageBackground,
   TextInput,
-  KeyboardAvoidingView,
   FlatList,
   ActivityIndicator,
 } from "react-native";
 import NavigationService from "../../../config/NavigationService";
-import { Fonts, Images, Colors, ApiCaller, Responsive } from "../../../config/";
-import Carousel, { Pagination } from "react-native-snap-carousel";
+import { Fonts, Colors, ApiCaller, Responsive } from "../../../config/";
 import { AppButton, CharacterListTile } from "../../../components";
 import moment from "moment";
 import md5 from "md5";
-import { ChangeCharacterScreen } from "../../../screens";
 
 const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
   //-------------------------------------------------CONSTANTS-------------------------------------------------
@@ -41,9 +36,7 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
     let response = await ApiCaller.Get(
       `characters?nameStartsWith=${search}&limit=10&offset=${offset}&ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
     );
-    console.log("responseeeee: ", response);
     let data = response.data.data.results;
-    console.log("the data: ", data);
     let names = data.map((item) => {
       return {
         id: item.id,
@@ -52,21 +45,16 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
           item.thumbnail.path + "/standard_xlarge." + item.thumbnail.extension,
       };
     });
-    console.log("names: ", names);
     setCharacterData(offset ? characterData.concat(names) : names);
     setIsLoading(false);
   };
 
   const onSearchPress = () => {
-    console.log("search pressed");
-    console.log("again char data: ", characterData);
-
     setIsLoading(true);
     loadData();
   };
 
   const loadMoreData = () => {
-    //setOffset(characterData.length+10)
     loadData(characterData.length);
   };
 
@@ -80,15 +68,11 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
       name: item.name,
       image: item.image
     })
-    
     selectedCharacterId == item.id ? setSelectedCharacterId() : setSelectedCharacterId(item.id)
-    console.log('sid',selectedCharacterId)
-    console.log('itemid',item.id)
   };
 
   const clearSearch = () => {
     setCharacterData([]),
-      console.log("Chardata: ", characterData);
   };
 
   const onPressCb = () => setModalVisible(true);
@@ -184,21 +168,6 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
 export default ChangeCharacterServiceComponent;
 
 const styles = StyleSheet.create({
-  cardStyle: {
-    height: 554,
-    width: 361,
-    backgroundColor: "rgba(255, 255, 255, 0.28)",
-    borderRadius: 15,
-    marginTop: 20,
-  },
-  headingStyle: {
-    fontFamily: Fonts["Badaboom"],
-    fontSize: 45,
-    color: Colors.White,
-    marginHorizontal: "10%",
-    textAlign: "center",
-    marginTop: "2%",
-  },
   textStyle: {
     fontFamily: Fonts["Badaboom"],
     fontSize: 25,
