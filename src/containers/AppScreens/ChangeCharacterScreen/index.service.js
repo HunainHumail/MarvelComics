@@ -199,7 +199,7 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
           />
           {
             console.log('LOAD MORE: ', loadMore),
-          loadMore && <View style={{flex:1}}>
+          loadMore && <View style={{flex:1, marginBottom: Responsive.VerticalSize(20)}}>
                   <ActivityIndicator size="small" color={Colors.White} />
                 </View>}
             </View>
