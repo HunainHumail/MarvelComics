@@ -37,7 +37,10 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
 
   //-------------------------------------------------FUNCTIONS-------------------------------------------------
 
-  const loadData = async (offset = 0) => {
+  const loadData = async (offset = 0, loadMore) => {
+    loadMore ? setIsLoading(false) : setIsLoading(true)
+
+    setLoadMore(true)
     let response = await ApiCaller.Get(
       `characters?nameStartsWith=${search}&limit=10&offset=${offset}&ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
     );
@@ -76,6 +79,7 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
     });
     setCharacterData(offset ? characterData.concat(names) : names);
     setIsLoading(false);
+    setLoadMore(false)
       }
     }
     else {
@@ -88,14 +92,14 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
   };
 
   const onSearchPress = () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     loadData();
   };
 
-  const loadMoreData = async() => {
-    setLoadMore(true)
-    await loadData(characterData.length)
-    setLoadMore(false)
+  const loadMoreData = () => {
+    // setLoadMore(true)
+    loadData(characterData.length, true)
+    // setLoadMore(false)
   };
 
   const onSelectCb = async() => {
@@ -126,7 +130,7 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
 
   //-------------------------------------------------RENDER COMPONENT FUNCTIONS-------------------------------------------------
 
-  const searchComponent = (info, isLoading, loadMore) => (
+  const searchComponent = (info) => (
     <View>
       <TextInput
         placeholder={"Enter Character Name. e.g. Spider-Man"}
@@ -161,14 +165,15 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.searchView}>
-        {isLoading && !loadMore ? (
+        {isLoading ? (
           <View style={styles.loadingStyle}>
-            <ActivityIndicator />
+            <ActivityIndicator size ={'small'} color={Colors.White} />
           </View>
         ) : characterData.length < 1 ? (
           <Text style={styles.textStyle}>{info}</Text>
         ) : (
-          <FlatList
+          <View>
+            <FlatList
             data={characterData}
             keyExtractor={(item, index) => index.toString()}
             onEndReachedThreshold={0.4}
@@ -192,6 +197,10 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
               );
             }}
           />
+          {loadMore && <View>
+                  <ActivityIndicator size="small" color={Colors.White} />
+                </View>}
+            </View>
         )}
       </View>
     </View>
