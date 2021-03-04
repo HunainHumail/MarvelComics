@@ -53,9 +53,10 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
       {
         console.log(response?.data?.data?.count == 0)
         console.log(characterData.length == response?.data?.data?.total )
-
+        setCharacterData([])
         setInfo('Please try some different character')
         showToast('No Data Found', 'success')
+        setIsLoading(false)
 
         // if (response?.data?.data?.offset == response?.data?.data?.total == response?.data?.data?.count == 0 )
         // {
@@ -68,19 +69,28 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
       }
       else
       {
+        if(response.data.data.count == 0 && response.data.data.total != 0)
+       {
+          showToast('No more data found!', 'success')
+          setLoadMore(false)
+       }
+
+       else 
+       {
         let data = response.data.data.results;
-      let names = data.map((item) => {
-      return {
-        id: item.id,
-        name: item.name,
-        image:
-          item.thumbnail.path + "/standard_xlarge." + item.thumbnail.extension,
-      };
-    });
-    setCharacterData(offset ? characterData.concat(names) : names);
-    setIsLoading(false);
-    setLoadMore(false)
-      }
+        let names = data.map((item) => {
+        return {
+          id: item.id,
+          name: item.name,
+          image:
+            item.thumbnail.path + "/standard_xlarge." + item.thumbnail.extension,
+        };
+      });
+      setCharacterData(offset ? characterData.concat(names) : names);
+      setIsLoading(false);
+      setLoadMore(false)
+        }
+       }
     }
     else {
       showToast(response?.data?.code)
