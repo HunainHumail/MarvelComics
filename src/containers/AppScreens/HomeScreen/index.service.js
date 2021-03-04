@@ -31,7 +31,7 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   const [id, setId] = useState('')
   const [image, setImage] = useState('')
   const [name, setName] = useState('')
-
+  const [total, setTotal] = useState('')
 
   //-------------------------------------------------FUNCTIONS-------------------------------------------------
 
@@ -70,7 +70,17 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
     if (response)
     {
       if (response.status == 200) {
+        if(response.data.data.count == 0 && response.data.data.total != 0)
+        {
+          showToast('No More Data found!', 'success')
+          setLoadMore(false)
+        }
+        else
+        {
         let data = response.data.data.results
+        let total = response.data.data.total
+        setTotal(total)
+        console.log('total: ', total)
         console.log('data: ', data.length)
         let list = data.map((item) => {
           return {
@@ -84,6 +94,7 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
         data.length == 0 ? setComicData('null') :  setComicData(offset ? comicData.concat(list) : list);
         setIsLoading(false);
         setLoadMore(false);
+        }
       }
       else {
         showToast(response?.data?.code)
@@ -136,7 +147,8 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
     name,
     onPressChangeCharacter,
     isLoading,
-    loadMore
+    loadMore,
+    total,
   });
 };
 
