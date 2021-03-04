@@ -4,6 +4,7 @@ import {
   Image,
   StyleSheet,
   ImageBackground,
+  ScrollView,
 } from "react-native";
 import { AppButton } from "../../../components";
 import { Fonts, Images, Colors, Responsive } from "../../../config/";
@@ -11,14 +12,17 @@ const ChangeCharacterScreen = ({ searchComponent, onSelectCb, selectedCharacterI
 
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+      {/* <View style={styles.container}> */}
     <ImageBackground source={Images.AppBackground} style={styles.imageStyle}>
       <Image source={Images.MarvelLogo} style={styles.logoStyle} />
      {searchComponent(info, isLoading, loadMore)}
-     <AppButton text='Select' height={Responsive.VerticalSize(40)} disabled={selectedCharacterId == undefined?true:false} onPress={()=>{onSelectCb()}}/>
-
+      <View style={styles.buttonView}>
+      <AppButton text='Select' height={Responsive.VerticalSize(40)} disabled={selectedCharacterId == undefined?true:false} onPress={()=>{onSelectCb()}}/>
+      </View>
     </ImageBackground>
-  </View>
+  {/* </View> */}
+    </ScrollView>
   );
 };
 
@@ -37,5 +41,10 @@ const styles = StyleSheet.create({
       resizeMode: "cover",
       alignItems: "center",
     },
+    buttonView: {
+      marginTop: Responsive.VerticalSize(10),
+      width: '100%',
+      alignItems: 'center'
+    }
   });
   
