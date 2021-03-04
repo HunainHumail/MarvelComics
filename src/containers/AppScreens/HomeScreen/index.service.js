@@ -60,6 +60,7 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
       loadMore == true ? setIsLoading(false) : setIsLoading(true)
       console.log('1st is Liading: ', isLoading)
 
+      setLoadMore(true)
       // setIsLoading(true);
     // loadMore == false ? setIsLoading(true) : setIsLoading(false) 
     let response = await ApiCaller.Get(
@@ -82,6 +83,7 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
         });
         data.length == 0 ? setComicData('null') :  setComicData(offset ? comicData.concat(list) : list);
         setIsLoading(false);
+        setLoadMore(false);
       }
       else {
         showToast(response?.data?.code)

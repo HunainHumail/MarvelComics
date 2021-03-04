@@ -46,7 +46,8 @@ const HomeScreen = ({
             comicData == 'null' ? (
               <Text style={styles.textStyle}>No data</Text>
             ) :
-            (<FlatList
+            (<View>
+              <FlatList
               data={comicData}
               keyExtractor={(item) => item.id.toString()}
               onEndReachedThreshold={0.8}
@@ -63,7 +64,13 @@ const HomeScreen = ({
                   />
                 );
               }}
-            />)
+            />
+            {
+              console.log('LOADDDDDDMOREEE: ', loadMore),
+            loadMore && <View>
+                  <ActivityIndicator size="small" color={Colors.White} />
+                </View> }
+            </View>)
           )}
         </View>
       </ImageBackground>
