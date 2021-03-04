@@ -16,16 +16,16 @@ import moment from "moment";
 import md5 from "md5";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-community/async-storage";
+import { showToast } from "../../../config/Utils";
 
 const OnboardingServiceComponent = ({ children, navigation }) => {
-
   //-------------------------------------------------CONSTANTS-------------------------------------------------
   const carousel = useRef();
   const privateKey = "4e7b6885fbb0e9d91aec0d9d60bbd6af";
   const publicKey = "c5ec22114831d4a03079737c05140b314216d7a9";
   const ts = moment().unix();
   const md5Hash = md5(ts + publicKey + privateKey);
-  let initialState = []
+  let initialState = [];
   let sliders = [
     {
       title: "Your favourite Marvel Character Comics!",
@@ -45,78 +45,117 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
   const [loadMore, setLoadMore] = useState(false);
   const [selectedCharacter, setSelectedCharater] = useState();
   const [selectedCharacterId, setSelectedCharacterId] = useState();
+  const [info, setInfo] = useState("Please Enter Some Character to Search");
 
- //-------------------------------------------------FUNCTIONS-------------------------------------------------
+  //-------------------------------------------------FUNCTIONS-------------------------------------------------
 
-
-  const loadData = async (offset=0) => {
+  const loadData = async (offset = 0, loadMore) => {
+    //  setIsLoading(true)
+    loadMore ? setIsLoading(false) : setIsLoading(true);
+    setLoadMore(loadMore);
     let response = await ApiCaller.Get(
       `characters?nameStartsWith=${search}&limit=10&offset=${offset}&ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
     );
-    let data = response.data.data.results;
-    let names = data.map((item) => {
-      return {
-        id: item.id,
-        name: item.name,
-        image:
-          item.thumbnail.path + "/standard_xlarge." + item.thumbnail.extension,
-      };
-    });
-    setCharacterData(offset ? characterData.concat(names) : names);
-    setIsLoading(false);
-  }
+    console.log(response);
 
+    if (response) {
+      if (response.status == 200) {
+        if (
+          response?.data?.data?.offset == 0 &&
+          response?.data?.data?.total == 0 &&
+          response?.data?.data?.count == 0
+        ) {
+          console.log("ASDASDSDASDAS");
+          console.log(response?.data?.data?.count == 0);
+          console.log(characterData.length == response?.data?.data?.total);
 
+          setInfo("Please try some different character");
+          showToast("No Data Found", "success");
+          setCharacterData([]);
+          setLoadMore(false);
+          setIsLoading(false);
 
-  const onSearchPress =  () => {
-    setIsLoading(true);
-    loadData()
+          // if (response?.data?.data?.offset == response?.data?.data?.total == response?.data?.data?.count == 0 )
+          // {
+          //   showToast('No More Data', 'success')
+          // }
+          // else
+          // {
+          //   showToast('No Data Found', 'success')
+          // }
+        } else {
+          if(response.data.data.count == 0 && response.data.data.total != 0)
+          {
+            showToast('No more data found!', 'success')
+            setLoadMore(false)
+          }
+          else{
+            let data = response.data.data.results;
+          let names = data.map((item) => {
+            return {
+              id: item.id,
+              name: item.name,
+              image:
+                item.thumbnail.path +
+                "/standard_xlarge." +
+                item.thumbnail.extension,
+            };
+          });
+          setCharacterData(offset ? characterData.concat(names) : names);
+          setIsLoading(false);
+          setLoadMore(false);
+          }
+        }
+      } else {
+        showToast(response?.data?.code);
+      }
+    } else {
+      showToast("Some Error Occurred!");
+    }
   };
 
+  const onSearchPress = () => {
+    search ? loadData() : showToast('Please enter something')
+  };
 
-
-  const loadMoreData = async() => {    
-    setLoadMore(true)
-    await loadData(characterData.length)
-    setLoadMore(false)
-  }
-
-
+  const loadMoreData = () => {
+    // setLoadMore(true)
+    loadData(characterData.length, true);
+    // setLoadMore(false)
+  };
 
   const onSnapToItem = (index) => {
     setActiveIndex(index);
   };
 
-
-  const onSelectCb = async() => {
-    console.log('selectedChar', selectedCharacter)
+  const onSelectCb = async () => {
+    console.log("selectedChar", selectedCharacter);
     try {
       await AsyncStorage.setItem("user", JSON.stringify("user"));
-      await AsyncStorage.setItem("character", JSON.stringify(selectedCharacter));
+      await AsyncStorage.setItem(
+        "character",
+        JSON.stringify(selectedCharacter)
+      );
     } catch {}
 
-    console.log('Done')
-    NavigationService.reset_0('HomeScreen')
-  }
-
-
+    console.log("Done");
+    NavigationService.reset_0("HomeScreen");
+  };
 
   const onCharacterTap = (item) => {
     setSelectedCharater({
       id: item.id,
       name: item.name,
-      image: item.image
-    })
-    selectedCharacterId == item.id ? setSelectedCharacterId() : setSelectedCharacterId(item.id)
+      image: item.image,
+    });
+    selectedCharacterId == item.id
+      ? setSelectedCharacterId()
+      : setSelectedCharacterId(item.id);
   };
 
-
- 
   const clearSearch = () => {
-    setCharacterData([])
-  }
-
-
+    setCharacterData([]);
+  };
 
   //-------------------------------------------------RENDER COMPONENT FUNCTIONS-------------------------------------------------
 
@@ -140,39 +179,63 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
               height={30}
               onPress={() => onSearchPress()}
             />
-            <TouchableOpacity onPress={()=>{clearSearch()}}><Text style={{marginTop: 5,textAlign:'center', fontFamily:Fonts['Badaboom'], color: Colors.White}}>Clear</Text></TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                clearSearch();
+              }}
+            >
+              <Text
+                style={{
+                  marginTop: 5,
+                  textAlign: "center",
+                  fontFamily: Fonts["Badaboom"],
+                  color: Colors.White,
+                }}
+              >
+                Clear
+              </Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.searchView}>
-            {isLoading && !loadMore? (
+            {isLoading && !loadMore ? (
               <View style={styles.loadingStyle}>
-                <ActivityIndicator size = {'small'} color = {Colors.White}/>
+                <ActivityIndicator size={"small"} color={Colors.White} />
               </View>
-            ) : characterData == undefined ? (
-              <Text style={styles.textStyle}>Please Search some character</Text>
+            ) : !characterData.length ? (
+              <Text style={styles.textStyle}>{info}</Text>
             ) : (
-              !characterData.length ? <Text style={styles.textStyle}>
-                No Data
-              </Text>:<FlatList
-                // extraData = {loadMore}
-                data={characterData}
-                keyExtractor={(item,index) => index.toString()}
-                onEndReachedThreshold={0.4}
-                onEndReached={()=>{loadMoreData()}}
-                renderItem={({ item, index }) => {
-                  return (
-                    <View style={styles.tileView}>
-                      <CharacterListTile
-                        name={item.name}
-                        imageUri={item.image}
-                        id={item.id}
-                        disabled={false}
-                        onPress={()=>{onCharacterTap(item)}}
-                        selectedCharacter = {selectedCharacterId}
-                      />
-                    </View>
-                  );
-                }}
-              />
+              <View>
+                <FlatList
+                  // extraData = {loadMore}
+                  data={characterData}
+                  keyExtractor={(item, index) => index.toString()}
+                  onEndReachedThreshold={0.4}
+                  onEndReached={() => {
+                    loadMoreData();
+                  }}
+                  renderItem={({ item, index }) => {
+                    return (
+                      <View style={styles.tileView}>
+                        <CharacterListTile
+                          name={item.name}
+                          imageUri={item.image}
+                          id={item.id}
+                          disabled={false}
+                          onPress={() => {
+                            onCharacterTap(item);
+                          }}
+                          selectedCharacter={selectedCharacterId}
+                        />
+                      </View>
+                    );
+                  }}
+                />
+                {loadMore && (
+                  <View>
+                    <ActivityIndicator size="small" color={Colors.White} />
+                  </View>
+                )}
+              </View>
             )}
           </View>
         </View>
@@ -219,7 +282,7 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
     );
   };
 
-//_________________________________________________________________________________________________________________________
+  //_________________________________________________________________________________________________________________________
   return children({
     navigation,
     sliders,
@@ -274,16 +337,17 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.Primary,
     alignSelf: "center",
     marginTop: 10,
-    borderRadius: 15
+    borderRadius: 15,
   },
   loadingStyle: {
+    flex: 1,
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
     color: Colors.White,
   },
   tileView: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
