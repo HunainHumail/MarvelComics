@@ -5,7 +5,7 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
-import { Fonts, Images, Colors } from "../../../config/";
+import { Fonts, Images, Colors, Responsive } from "../../../config/";
 import Carousel from "react-native-snap-carousel";
 import {AppButton} from '../../../components'
 const OnboardingScreen = ({sliders, carousel, pagination, onSnapToItem, _renderItem, activeIndex, onSelectCb, selectedCharacterId}) => {
@@ -18,8 +18,8 @@ const OnboardingScreen = ({sliders, carousel, pagination, onSnapToItem, _renderI
           layout={"default"}
           ref={carousel}
           data={sliders}
-          sliderWidth={500}
-          itemWidth={350}
+          sliderWidth={Responsive.HorizontalSize()}
+          itemWidth={Responsive.HorizontalSize(300)}
           renderItem={_renderItem}
           onSnapToItem={(index) => onSnapToItem(index)}
         />
@@ -28,7 +28,7 @@ const OnboardingScreen = ({sliders, carousel, pagination, onSnapToItem, _renderI
         </View>
         {pagination()}
         <View style = {styles.buttonView}>
-        {activeIndex == 1 && <AppButton text='Select' height="55%" disabled={selectedCharacterId == undefined?true:false} onPress={()=>{onSelectCb()}}/>}
+        {activeIndex == 1 && <AppButton text='Select' height={Responsive.VerticalSize(40)} disabled={selectedCharacterId == undefined?true:false} onPress={()=>{onSelectCb()}}/>}
        </View>
         </View>
 
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonView: {
-    width: '30%', justifyContent: 'center', alignItems: 'center'
+    width: Responsive.HorizontalSize(130), justifyContent: 'center', alignItems: 'center'
   }
 
 });

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Image, StyleSheet } from "react-native";
-import { Images } from "../../../config/";
+import { Images, Responsive } from "../../../config/";
 
 const SplashScreen = () => {
   return (
@@ -8,8 +8,8 @@ const SplashScreen = () => {
       <Image source={Images.SplashBackground} resizeMode="cover" />
       <Image
         source={Images.Logo}
-        resizeMode="cover"
-        style={styles.imageStyle}
+        resizeMode="contain"
+        style={styles.logoStyle}
       />
     </View>
   );
@@ -24,11 +24,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logoStyle: {
-    textAlign: "center",
-  },
-  imageStyle: {
-    width: 331,
-    height: 195,
+    width: Responsive.HorizontalSize(231),
+    height: Responsive.VerticalSize(195),
     position: "absolute",
   },
 });

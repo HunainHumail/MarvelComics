@@ -6,14 +6,14 @@ import {
   Image,
   View,
 } from "react-native";
-import { Colors, Fonts } from "../../config";
+import { Colors, Fonts, Responsive } from "../../config";
 
 const CharacterListTile = ({
-  width = "100%",
+  width = "95%",
   name,
   onPress,
   disabled = true,
-  height = 60,
+  height = Responsive.VerticalSize(60),
   imageUri,
   selectedCharacter,
   id,
@@ -58,16 +58,16 @@ const styles = StyleSheet.create({
   textStyle: {
     color: Colors.White,
     fontFamily: Fonts["Badaboom"],
-    fontSize: 15,
+    fontSize: Responsive.FontRegular,
     textAlign: "center",
     alignSelf: "center",
-    marginHorizontal: 10,
+    marginHorizontal: Responsive.HorizontalSize(10),
   },
   imageView: {
-    height: 50,
+    height: Responsive.VerticalSize(50),
     borderRadius: 15,
-    width: 50,
-    marginLeft: 20,
+    width: Responsive.VerticalSize(50),
+    marginLeft: Responsive.HorizontalSize(10),
     justifyContent: "center",
     alignSelf: "center",
   },

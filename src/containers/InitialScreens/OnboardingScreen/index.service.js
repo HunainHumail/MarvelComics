@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import NavigationService from "../../../config/NavigationService";
-import { Fonts, Colors, ApiCaller } from "../../../config/";
+import { Fonts, Colors, ApiCaller, Responsive } from "../../../config/";
 import { Pagination } from "react-native-snap-carousel";
 import { AppButton, CharacterListTile } from "../../../components";
 import moment from "moment";
@@ -175,8 +175,8 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
           <View style={{ alignSelf: "center", marginTop: 10 }}>
             <AppButton
               text="Search"
-              width={100}
-              height={30}
+              width={Responsive.HorizontalSize(100)}
+              height={Responsive.VerticalSize(30)}
               onPress={() => onSearchPress()}
             />
             <TouchableOpacity
@@ -186,7 +186,7 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
             >
               <Text
                 style={{
-                  marginTop: 5,
+                  marginTop: Responsive.VerticalSize(10),
                   textAlign: "center",
                   fontFamily: Fonts["Badaboom"],
                   color: Colors.White,
@@ -301,15 +301,15 @@ export default OnboardingServiceComponent;
 
 const styles = StyleSheet.create({
   cardStyle: {
-    height: 554,
-    width: 361,
+    height: Responsive.VerticalSize(554),
+    width: Responsive.HorizontalSize(310),
     backgroundColor: "rgba(255, 255, 255, 0.28)",
     borderRadius: 15,
-    marginTop: 20,
+    marginTop: Responsive.VerticalSize(20),
   },
   headingStyle: {
     fontFamily: Fonts["Badaboom"],
-    fontSize: 45,
+    fontSize: Responsive.FontLarge,
     color: Colors.White,
     marginHorizontal: "10%",
     textAlign: "center",
@@ -317,14 +317,14 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontFamily: Fonts["Badaboom"],
-    fontSize: 25,
+    fontSize: Responsive.FontMedium,
     color: Colors.White,
     marginHorizontal: "10%",
     marginTop: "10%",
   },
   textInputStyle: {
     fontFamily: Fonts["Badaboom"],
-    fontSize: 18,
+    fontSize: Responsive.FontRegular,
     marginHorizontal: "12%",
     textAlign: "center",
     color: Colors.WhiteText,
@@ -333,11 +333,12 @@ const styles = StyleSheet.create({
   },
   searchView: {
     width: "90%",
-    height: "50%",
+    height: Responsive.VerticalSize(200),
     backgroundColor: Colors.Primary,
     alignSelf: "center",
-    marginTop: 10,
+    marginTop: Responsive.VerticalSize(10),
     borderRadius: 15,
+    paddingVertical: Responsive.VerticalSize(10)
   },
   loadingStyle: {
     flex: 1,

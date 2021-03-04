@@ -1,6 +1,6 @@
 import React from 'react'
 import {TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView} from 'react-native'
-import {Colors, Fonts} from '../../config'
+import {Colors, Fonts, Responsive} from '../../config'
 
 const AppButton = ({width='80%', text, onPress, height, disabled}) => {
     
@@ -18,12 +18,12 @@ export default AppButton;
 const styles = StyleSheet.create({
     buttonStyle: {
         justifyContent: 'center',
-        borderRadius: 50,
+        borderRadius: Responsive.VerticalSize(50),
     },
     textStyle: {
         color: Colors.White,
         fontFamily: Fonts['Badaboom'],
-        fontSize: 15,
+        fontSize: Responsive.FontSmall,
         textAlign: 'center'
     }
 })
