@@ -54,7 +54,7 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
 
 
 
-  const loadData = async (offset=0) => {
+  const loadData = async (offset=0, loadMore) => {
     if(id){
       console.log('1st loadmore: ', loadMore)
       loadMore == true ? setIsLoading(false) : setIsLoading(true)
@@ -95,9 +95,9 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
 
 
   const loadMoreData = () => {   
-    setLoadMore(true) 
-    loadData(comicData.length)
-    setLoadMore(false)
+    // setLoadMore(true) 
+    loadData(comicData.length, true)
+    // setLoadMore(false)
   }
 
 
