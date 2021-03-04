@@ -38,7 +38,7 @@ const HomeScreen = ({
         </View>
         <Text style={styles.headingStyle}>Comics</Text>
         <View style={styles.listView}>
-          {isLoading && !loadMore? (
+          {isLoading ? (
             <View style={styles.loadingStyle}>
               <ActivityIndicator size={"small"} color={Colors.White} />
             </View>

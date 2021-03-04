@@ -7,14 +7,14 @@ import {
 } from "react-native";
 import { AppButton } from "../../../components";
 import { Fonts, Images, Colors, Responsive } from "../../../config/";
-const ChangeCharacterScreen = ({ searchComponent, onSelectCb, selectedCharacterId }) => {
+const ChangeCharacterScreen = ({ searchComponent, onSelectCb, selectedCharacterId, info, isLoading, loadMore }) => {
 
 
   return (
     <View style={styles.container}>
     <ImageBackground source={Images.AppBackground} style={styles.imageStyle}>
       <Image source={Images.MarvelLogo} style={styles.logoStyle} />
-     {searchComponent()}
+     {searchComponent(info, isLoading, loadMore)}
      <AppButton text='Select' height={Responsive.VerticalSize(40)} disabled={selectedCharacterId == undefined?true:false} onPress={()=>{onSelectCb()}}/>
 
     </ImageBackground>
