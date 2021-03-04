@@ -23,8 +23,10 @@ const HomeScreen = ({
   name,
   onPressChangeCharacter,
   isLoading,
+  total
 }) => {
 
+  console.log('tooooootal: ', total)
   return (
     <View style={styles.container}>
       <ImageBackground source={Images.AppBackground} style={styles.imageStyle}>
@@ -43,7 +45,7 @@ const HomeScreen = ({
               <ActivityIndicator size={"small"} color={Colors.White} />
             </View>
           ) : (
-            comicData == 'null' ? (
+            total == 0 ? (
               <Text style={styles.textStyle}>No data</Text>
             ) :
             (<View>
