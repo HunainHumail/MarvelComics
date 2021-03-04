@@ -8,30 +8,29 @@ const SplashServiceComponent = ({
 }) => {
 
 
-//-------------------------------------------------EFFECTS-------------------------------------------------
+//-------------------------------------------------FUNCTIONS-------------------------------------------------
+
 const getUser = async () => {
-    await AsyncStorage.getItem("character").then(async (character) => {
-        console.log('characterr: ', character)
-      if (JSON.parse(character)) {
-        setTimeout(() => {
-          NavigationService.reset_0("HomeScreen");
-        }, 2400);
-      } else {
-        setTimeout(() => {
-          NavigationService.reset_0("OnboardingScreen");
-        }, 2400);
-      }
-    });
-  };
+  await AsyncStorage.getItem("character").then(async (character) => {
+    if (JSON.parse(character)) {
+      setTimeout(() => {
+        NavigationService.reset_0("HomeScreen");
+      }, 2400);
+    } else {
+      setTimeout(() => {
+        NavigationService.reset_0("OnboardingScreen");
+      }, 2400);
+    }
+  });
+};
+
+
+//-------------------------------------------------EFFECTS-------------------------------------------------
+
   useEffect(() => {
     getUser();
   }, []);
 
-    // useEffect(()=>{
-    //     setTimeout(() => {
-    //         NavigationService.reset_0("OnboardingScreen");
-    //       }, 2400);
-    // },[])
 //_________________________________________________________________________________________________________________________
 
 

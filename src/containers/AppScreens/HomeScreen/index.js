@@ -26,7 +26,6 @@ const HomeScreen = ({
   total
 }) => {
 
-  console.log('tooooootal: ', total)
   return (
     <View style={styles.container}>
       <ImageBackground source={Images.AppBackground} style={styles.imageStyle}>
@@ -68,7 +67,6 @@ const HomeScreen = ({
               }}
             />
             {
-              console.log('LOADDDDDDMOREEE: ', loadMore),
             loadMore && <View>
                   <ActivityIndicator size="small" color={Colors.White} />
                 </View> }

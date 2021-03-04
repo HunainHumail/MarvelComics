@@ -50,7 +50,6 @@ export const CharacterModal = ({
           <View
             style={styles.modalStyle}
           >
-            
               <Image source={{ uri:image }} style={styles.characterImageStyle} />
               <Text style={styles.textStyle}>{name}</Text>
               <View style={styles.buttonView}>

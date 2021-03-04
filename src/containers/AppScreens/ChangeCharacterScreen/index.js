@@ -13,7 +13,6 @@ const ChangeCharacterScreen = ({ searchComponent, onSelectCb, selectedCharacterI
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* <View style={styles.container}> */}
     <ImageBackground source={Images.AppBackground} style={styles.imageStyle}>
       <Image source={Images.MarvelLogo} style={styles.logoStyle} />
      {searchComponent(info, isLoading, loadMore)}
@@ -21,7 +20,6 @@ const ChangeCharacterScreen = ({ searchComponent, onSelectCb, selectedCharacterI
       <AppButton text='Select' height={Responsive.VerticalSize(40)} disabled={selectedCharacterId == undefined?true:false} onPress={()=>{onSelectCb()}}/>
       </View>
     </ImageBackground>
-  {/* </View> */}
     </ScrollView>
   );
 };

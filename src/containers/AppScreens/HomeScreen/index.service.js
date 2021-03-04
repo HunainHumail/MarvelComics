@@ -16,11 +16,6 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   const ts = moment().unix();
   const md5Hash = md5(ts + publicKey + privateKey);
 
-  // const selectedCharacter = route.params.selectedCharacter
-  // let id = selectedCharacter.id
-  // let image = selectedCharacter.image
-  // let name = selectedCharacter.name
-
   //-------------------------------------------------HOOKS-------------------------------------------------
 
 
@@ -38,7 +33,6 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   const getCharacter = async () => {
     await AsyncStorage.getItem("character").then(async (character) => {
       let parsedCharacter= JSON.parse(character)
-      console.log('parseddd: ', parsedCharacter.id)
 
       if (character) {
         setId(parsedCharacter.id)
@@ -48,25 +42,15 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
     });
   };
 
-  console.log('id: ', id)
-  console.log('image: ', image)
-  console.log('name: ', name)
-
-
 
   const loadData = async (offset=0, loadMore) => {
     if(id){
-      console.log('1st loadmore: ', loadMore)
       loadMore == true ? setIsLoading(false) : setIsLoading(true)
-      console.log('1st is Liading: ', isLoading)
 
       setLoadMore(true)
-      // setIsLoading(true);
-    // loadMore == false ? setIsLoading(true) : setIsLoading(false) 
     let response = await ApiCaller.Get(
       `comics?characters=${id}&limit=10&offset=${offset}&ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
     );
-    console.log('response: ', response)
     if (response)
     {
       if (response.status == 200) {
@@ -80,8 +64,6 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
         let data = response.data.data.results
         let total = response.data.data.total
         setTotal(total)
-        console.log('total: ', total)
-        console.log('data: ', data.length)
         let list = data.map((item) => {
           return {
             id: item.id,
@@ -108,9 +90,7 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
 
 
   const loadMoreData = () => {   
-    // setLoadMore(true) 
     loadData(comicData.length, true)
-    // setLoadMore(false)
   }
 
 

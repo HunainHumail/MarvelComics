@@ -50,13 +50,11 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
   //-------------------------------------------------FUNCTIONS-------------------------------------------------
 
   const loadData = async (offset = 0, loadMore) => {
-    //  setIsLoading(true)
     loadMore ? setIsLoading(false) : setIsLoading(true);
     setLoadMore(loadMore);
     let response = await ApiCaller.Get(
       `characters?nameStartsWith=${search}&limit=10&offset=${offset}&ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
     );
-    console.log(response);
 
     if (response) {
       if (response.status == 200) {
@@ -65,9 +63,6 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
           response?.data?.data?.total == 0 &&
           response?.data?.data?.count == 0
         ) {
-          console.log("ASDASDSDASDAS");
-          console.log(response?.data?.data?.count == 0);
-          console.log(characterData.length == response?.data?.data?.total);
 
           setInfo("Please try some different character");
           showToast("No Data Found", "success");
@@ -75,14 +70,6 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
           setLoadMore(false);
           setIsLoading(false);
 
-          // if (response?.data?.data?.offset == response?.data?.data?.total == response?.data?.data?.count == 0 )
-          // {
-          //   showToast('No More Data', 'success')
-          // }
-          // else
-          // {
-          //   showToast('No Data Found', 'success')
-          // }
         } else {
           if(response.data.data.count == 0 && response.data.data.total != 0)
           {
@@ -119,9 +106,7 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
   };
 
   const loadMoreData = () => {
-    // setLoadMore(true)
     loadData(characterData.length, true);
-    // setLoadMore(false)
   };
 
   const onSnapToItem = (index) => {
@@ -129,7 +114,6 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
   };
 
   const onSelectCb = async () => {
-    console.log("selectedChar", selectedCharacter);
     try {
       await AsyncStorage.setItem("user", JSON.stringify("user"));
       await AsyncStorage.setItem(
@@ -137,8 +121,6 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
         JSON.stringify(selectedCharacter)
       );
     } catch {}
-
-    console.log("Done");
     NavigationService.reset_0("HomeScreen");
   };
 
@@ -206,7 +188,6 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
             ) : (
               <View>
                 <FlatList
-                  // extraData = {loadMore}
                   data={characterData}
                   keyExtractor={(item, index) => index.toString()}
                   onEndReachedThreshold={0.4}
@@ -273,7 +254,6 @@ const OnboardingServiceComponent = ({ children, navigation }) => {
           }}
           inactiveDotStyle={{
             borderColor: Colors.White,
-            // Define styles for inactive dots here
           }}
           inactiveDotOpacity={1}
           inactiveDotScale={0.6}

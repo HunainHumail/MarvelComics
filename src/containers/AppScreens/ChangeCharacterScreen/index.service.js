@@ -44,28 +44,17 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
     let response = await ApiCaller.Get(
       `characters?nameStartsWith=${search}&limit=10&offset=${offset}&ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
     );
-    console.log(response)
 
     if(response){
     if(response.status == 200) {
 
       if (response?.data?.data?.offset == 0 && response?.data?.data?.total == 0 && response?.data?.data?.count == 0 )
       {
-        console.log(response?.data?.data?.count == 0)
-        console.log(characterData.length == response?.data?.data?.total )
         setCharacterData([])
         setInfo('Please try some different character')
         showToast('No Data Found', 'success')
         setIsLoading(false)
 
-        // if (response?.data?.data?.offset == response?.data?.data?.total == response?.data?.data?.count == 0 )
-        // {
-        //   showToast('No More Data', 'success')
-        // }
-        // else 
-        // {
-        //   showToast('No Data Found', 'success')
-        // }
       }
       else
       {
@@ -102,24 +91,19 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
   };
 
   const onSearchPress = () => {
-    // setIsLoading(true);
     loadData();
   };
 
   const loadMoreData = () => {
-    // setLoadMore(true)
     loadData(characterData.length, true)
-    // setLoadMore(false)
   };
 
   const onSelectCb = async() => {
-    console.log('selectedChar', selectedCharacter)
     try {
       await AsyncStorage.setItem("user", JSON.stringify("user"));
       await AsyncStorage.setItem("character", JSON.stringify(selectedCharacter));
     } catch {}
 
-    console.log('Done')
     NavigationService.reset_0('HomeScreen')
   }
 
@@ -208,7 +192,6 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
             }}
           />
           {
-            console.log('LOAD MORE: ', loadMore),
           loadMore && <View style={{flex:1, marginBottom: Responsive.VerticalSize(20)}}>
                   <ActivityIndicator size="small" color={Colors.White} />
                 </View>}
