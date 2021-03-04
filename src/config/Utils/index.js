@@ -13,7 +13,7 @@ export function showToast(message, type = "error", duration = 3000) {
         backgroundColor: type != "error" ? Colors.Primary : Colors.Red,
       },
       textStyle: {
-        color: type != "error" ? Colors.WhiteText : Colors.Black,
+        color: Colors.White,
         textAlign: "center",
         fontFamily: Fonts["Poppins-Bold-Italic"],
       },
