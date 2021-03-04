@@ -14,6 +14,7 @@ import { AppButton, CharacterListTile } from "../../../components";
 import moment from "moment";
 import md5 from "md5";
 import AsyncStorage from "@react-native-community/async-storage";
+import { showToast } from "../../../config/Utils";
 
 
 const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
@@ -32,6 +33,7 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
   const [loadMore, setLoadMore] = useState(false);
   const [selectedCharacter, setSelectedCharater] = useState();
   const [selectedCharacterId, setSelectedCharacterId] = useState();
+  const [info, setInfo] = useState('Please Enter Some Character to Search')
 
   //-------------------------------------------------FUNCTIONS-------------------------------------------------
 
@@ -39,8 +41,32 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
     let response = await ApiCaller.Get(
       `characters?nameStartsWith=${search}&limit=10&offset=${offset}&ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
     );
-    let data = response.data.data.results;
-    let names = data.map((item) => {
+    console.log(response)
+
+    if(response){
+    if(response.status == 200) {
+
+      if (response?.data?.data?.offset == 0 && response?.data?.data?.total == 0 && response?.data?.data?.count == 0 )
+      {
+        console.log(response?.data?.data?.count == 0)
+        console.log(characterData.length == response?.data?.data?.total )
+
+        setInfo('Please try some different character')
+        showToast('No Data Found', 'success')
+
+        // if (response?.data?.data?.offset == response?.data?.data?.total == response?.data?.data?.count == 0 )
+        // {
+        //   showToast('No More Data', 'success')
+        // }
+        // else 
+        // {
+        //   showToast('No Data Found', 'success')
+        // }
+      }
+      else
+      {
+        let data = response.data.data.results;
+      let names = data.map((item) => {
       return {
         id: item.id,
         name: item.name,
@@ -50,6 +76,15 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
     });
     setCharacterData(offset ? characterData.concat(names) : names);
     setIsLoading(false);
+      }
+    }
+    else {
+      showToast(response?.data?.code)
+    }
+    }
+    else {
+      showToast('Some Error Occurred!')
+    }
   };
 
   const onSearchPress = () => {
@@ -91,7 +126,7 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
 
   //-------------------------------------------------RENDER COMPONENT FUNCTIONS-------------------------------------------------
 
-  const searchComponent = () => (
+  const searchComponent = (info, isLoading, loadMore) => (
     <View>
       <TextInput
         placeholder={"Enter Character Name. e.g. Spider-Man"}
@@ -130,10 +165,8 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
           <View style={styles.loadingStyle}>
             <ActivityIndicator />
           </View>
-        ) : characterData == undefined ? (
-          <Text style={styles.textStyle}>Please Search some character</Text>
-        ) : !characterData.length ? (
-          <Text style={styles.textStyle}>No Data</Text>
+        ) : characterData.length < 1 ? (
+          <Text style={styles.textStyle}>{info}</Text>
         ) : (
           <FlatList
             data={characterData}
@@ -174,6 +207,9 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
     onSelectCb,
     selectedCharacter,
     selectedCharacterId,
+    info, 
+    isLoading,
+    loadMore
   });
 };
 

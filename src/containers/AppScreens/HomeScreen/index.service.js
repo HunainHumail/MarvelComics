@@ -4,6 +4,7 @@ import { ApiCaller } from "../../../config/";
 import moment from "moment";
 import md5 from "md5";
 import AsyncStorage from "@react-native-community/async-storage";
+import { showToast } from "../../../config/Utils";
 
 const HomeScreenServiceComponent = ({ children, navigation, route }) => {
 
@@ -54,30 +55,46 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
 
 
   const loadData = async (offset=0) => {
-    setIsLoading(true);
-    !loadMore ? setIsLoading(true) : setIsLoading(false) && setLoadMore(true)
+    if(id){
+      console.log('1st loadmore: ', loadMore)
+      loadMore == true ? setIsLoading(false) : setIsLoading(true)
+      console.log('1st is Liading: ', isLoading)
+
+      // setIsLoading(true);
+    // loadMore == false ? setIsLoading(true) : setIsLoading(false) 
     let response = await ApiCaller.Get(
       `comics?characters=${id}&limit=10&offset=${offset}&ts=${ts}&apikey=${privateKey}&hash=${md5Hash}`
     );
-    let data = response.data.data.results
-      console.log('data: ', data.length)
-    let list = data.map((item) => {
-      return {
-        id: item.id,
-        title: item.title,
-        issueNumber: item.issueNumber,
-        price: item.prices[0].price,
-        imageUrl: item.thumbnail.path + "/portrait_uncanny." + item.thumbnail.extension,
-      };
-    });
-    data.length == 0 ? setComicData('null') :  setComicData(offset ? comicData.concat(list) : list);
-
-    setIsLoading(false);
+    console.log('response: ', response)
+    if (response)
+    {
+      if (response.status == 200) {
+        let data = response.data.data.results
+        console.log('data: ', data.length)
+        let list = data.map((item) => {
+          return {
+            id: item.id,
+            title: item.title,
+            issueNumber: item.issueNumber,
+            price: item.prices[0].price,
+            imageUrl: item.thumbnail.path + "/portrait_uncanny." + item.thumbnail.extension,
+          };
+        });
+        data.length == 0 ? setComicData('null') :  setComicData(offset ? comicData.concat(list) : list);
+        setIsLoading(false);
+      }
+      else {
+        showToast(response?.data?.code)
+      }
+    }
+    else {
+      showToast('Some Error Occured')
+    }
+    }
   }
 
 
   const loadMoreData = () => {   
-    setIsLoading(false)
     setLoadMore(true) 
     loadData(comicData.length)
     setLoadMore(false)
