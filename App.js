@@ -26,12 +26,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { MainStack } from "./src/stacks/MainStack";
 import {NavigationService} from './src/config';
 import {Colors} from './src/config/'
+import { Root } from "native-base";
 
 const App: () => React$Node = () => {
   return (
-    <NavigationContainer ref={(ref) => NavigationService.setTopLevelNavigator(ref)} theme={{colors: {background: Colors.Primary}}}>
+    <Root>
+      <NavigationContainer ref={(ref) => NavigationService.setTopLevelNavigator(ref)} theme={{colors: {background: Colors.Primary}}}>
       <MainStack/>
-    </NavigationContainer>
+      </NavigationContainer> 
+    </Root>
   );
 };
 
