@@ -11,19 +11,16 @@ import {
 import NavigationService from "../../../config/NavigationService";
 import { Fonts, Colors, ApiCaller, Responsive } from "../../../config/";
 import { AppButton, CharacterListTile } from "../../../components";
-import moment from "moment";
-import md5 from "md5";
 import AsyncStorage from "@react-native-community/async-storage";
-import { showToast } from "../../../config/Utils";
+import { showToast, PRIVATE_KEY, MD5_HASH, TIME_STAMP } from "../../../config/Utils";
 
 
 const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
   //-------------------------------------------------CONSTANTS-------------------------------------------------
 
-  const privateKey = "4e7b6885fbb0e9d91aec0d9d60bbd6af";
-  const publicKey = "c5ec22114831d4a03079737c05140b314216d7a9";
-  const ts = moment().unix();
-  const md5Hash = md5(ts + publicKey + privateKey);
+  const privateKey = PRIVATE_KEY;
+  const ts = TIME_STAMP;
+  const md5Hash = MD5_HASH;
 
   //-------------------------------------------------HOOKS-------------------------------------------------
 
