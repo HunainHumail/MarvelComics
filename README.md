@@ -17,6 +17,28 @@
 - Axios for getting data from APIs
 - Responsive Screen Design
 
+## Commands used
+
+```sh
+npm install
+npm start
+react-native run-android
+yarn add
+yarn
+npm install
+npm start
+react-native start
+```
+## How to run project
+
+
+    Note: You must have installed node and have react native configured environment
+    If you dont have react native environment configured, you can follow the official documentation for that:
+    
+   [ https://reactnative.dev/docs/environment-setup]
+    
+ - run yarn or npm install to get the node modules
+ - run react-native run-android command to start the project
 
 ## Project Structure
 
@@ -54,7 +76,7 @@
         ├── CharacterModal               # Character Modal Component
         ├── CharacterListTile            # Searched character tiles
         ├── ComicListTile                # Searched comic list tiles
-        ├── index.js                     # All the components exported from here 
+        ├── index.js                    # All the components exported from here 
         
 ### Configuration folder
 
@@ -108,22 +130,6 @@ In this folder all the App Navigation Stacks
         ├── MainStack.js
 
 
-
-        
-        
-        
-Commands used
-
-```sh
-npm install
-npm start
-react-native run-android
-yarn add
-yarn
-npm install
-npm start
-react-native start
-```
 
 ## Packages used
 
