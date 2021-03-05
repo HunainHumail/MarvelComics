@@ -21,7 +21,7 @@ const HomeScreenServiceComponent = ({ children, navigation, route }) => {
   const [loadMore, setLoadMore] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [id, setId] = useState('')
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState(null)
   const [name, setName] = useState('')
   const [total, setTotal] = useState('')
 

@@ -88,7 +88,7 @@ const ChangeCharacterServiceComponent = ({ children, navigation, route }) => {
   };
 
   const onSearchPress = () => {
-    loadData();
+    search ? loadData() : showToast('Please enter something')
   };
 
   const loadMoreData = () => {
